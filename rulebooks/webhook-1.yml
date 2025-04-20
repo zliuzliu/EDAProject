@@ -1,0 +1,21 @@
+---
+- name: Listen for events on a webhook
+  hosts: ai.example.com
+  gather_facts: false
+  
+  sources:
+    - ansible.eda.webhook:
+        host: ai.example.com
+        port: 5000
+  rules:
+    - name: Say Hello
+      condition: event.payload.message == "Hello"
+      action:
+        debug:
+          msg: "You said, '{{ event.payload.message }}'. Is it me you're looking for?"
+
+    - name: Didn't hear Hello
+      condition: event.payload.message != "Hello"
+      action:
+        debug:
+          msg: "You said, '{{ event.payload.message }}'. Is that what you meant to say?"
