@@ -12,7 +12,7 @@
   rules:
     - name: Respond to push event
       condition: >
-        event.payload.repository.name == "DO274_Demo"
+        event.payload.repository.name == "gitea/DO274_Demo"
         and event.meta.headers.X_Gitlab_Event == "Push Hook"
         and event.payload.ref is search("master")
       action:
