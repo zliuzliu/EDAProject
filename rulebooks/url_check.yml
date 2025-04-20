@@ -1,0 +1,34 @@
+---
+- name: Listen for URL events
+  hosts: ai.example.com
+  gather_facts: false
+
+  sources:
+    - name: Match events from webserver
+      ansible.eda.url_check:
+        urls:
+          - http://ai.example.com:81/ignition/master.ign
+        delay: 10
+
+  rules:
+    - name: Webserver is up
+      condition: event.url_check.status == "up"
+      action:
+        debug:
+          msg: The website is up and running
+
+    - name: Webserver is down
+      condition: >
+        event.url_check.status == "down"
+        and event.url_check.error_msg is search("Cannot connect to host")
+      action:
+        debug:
+          msg: The website is down
+
+    - name: The page cannot be found
+      condition: >
+        event.url_check.status == "down"
+        and event.url_check.status_code == 404
+      action:
+        debug:
+          msg: The page cannot be found
