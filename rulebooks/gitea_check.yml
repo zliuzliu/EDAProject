@@ -10,11 +10,6 @@
         - ansible.eda.dashes_to_underscores:
 
   rules:
-    - name: Debug if the webhook has a payload
-      condition: event.payload is defined
-      action:
-        debug:
-
     - name: Respond to push event
       condition: >
         event.payload.repository.name == "DO274_Demo"
