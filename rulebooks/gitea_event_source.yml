@@ -1,0 +1,35 @@
+---
+- name: Capture events posted from Git server
+  hosts: all
+  sources:
+    - name: From Gitea Source
+      ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 5000
+      filters:
+        - ansible.eda.dashes_to_underscores:
+
+  rules:
+    - name: Respond to push event
+      condition: >
+        event.payload.repository.name == "DO274_Demo"
+        and event.meta.headers.X_Gitea_Event == "push"
+        and event.payload.ref is search("master")
+      action:
+        run_job_template:
+          name: Refresh Fact Cache
+          organization: "Home Lab"
+
+    - name: Debug if the webhook has a payload
+      condition: event.payload is defined
+      action:
+        debug:
+        
+    - name: Get push event details
+      condition: event.meta.headers.X_Gitea_Event == "Push Hook"
+      action:
+        post_event:
+          event:
+            type: "{{ event.meta.headers.X_Gitea_Event }}"
+            gitref: "{{ event.payload.ref }}"
+            repo_name: "{{ event.payload.repository.name }}"
