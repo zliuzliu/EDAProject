@@ -19,7 +19,7 @@
       condition: >
         event.payload.repository.name == "gitea/DO274_Demo"
         and event.meta.headers.X_Gitlab_Event == "Push Hook"
-        and event.payload.ref is search("master")
+        and event.payload.ref is search("refs/heads/master")
       action:
         run_job_template:
           name: Refresh Fact Cache
