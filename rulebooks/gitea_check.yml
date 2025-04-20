@@ -22,5 +22,5 @@
         and event.payload.ref is search("main")
       action:
         run_job_template:
-          name: Development deploy
-          organization: Default
+          name: Refresh Fact Cache
+          organization: "Home Lab"
