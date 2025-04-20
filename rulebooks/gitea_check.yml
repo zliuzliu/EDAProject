@@ -10,11 +10,6 @@
         - ansible.eda.dashes_to_underscores:
 
   rules:
-    - name: Debug if the webhook has a payload
-      condition: event.payload is defined
-      action:
-        debug:
-        
     - name: Respond to push event
       condition: >
         event.payload.repository.name == "gitea/DO274_Demo"
@@ -24,3 +19,9 @@
         run_job_template:
           name: Refresh Fact Cache
           organization: "Home Lab"
+
+    - name: Debug if the webhook has a payload
+      condition: event.payload is defined
+      action:
+        debug:
+        
