@@ -13,7 +13,7 @@
     - name: Respond to push event
       condition: >
         event.payload.repository.name == "DO274_Demo"
-        and event.meta.headers.X_Gitlab_Event == "Push Hook"
+        and event.meta.headers.X_Gitea_Event == "push"
         and event.payload.ref is search("master")
       action:
         run_job_template:
@@ -26,10 +26,10 @@
         debug:
         
     - name: Get push event details
-      condition: event.meta.headers.X_Gitlab_Event == "Push Hook"
+      condition: event.meta.headers.X_Gitea_Event == "Push Hook"
       action:
         post_event:
           event:
-            type: "{{ event.meta.headers.X_Gitlab_Event }}"
+            type: "{{ event.meta.headers.X_Gitea_Event }}"
             gitref: "{{ event.payload.ref }}"
             repo_name: "{{ event.payload.repository.name }}"
