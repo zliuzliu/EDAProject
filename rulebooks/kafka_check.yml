@@ -1,3 +1,4 @@
+---
 - name: Listen for events on kafka
   hosts: all
 
