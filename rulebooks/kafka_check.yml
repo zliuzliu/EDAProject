@@ -11,4 +11,5 @@
     - name: kafka
       condition: event.message != ""
       action:
-        debug
+        debug:
+          msg: '{{ event.message }}'
