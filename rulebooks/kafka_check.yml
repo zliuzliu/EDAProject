@@ -1,0 +1,14 @@
+- name: Listen for events on kafka
+  hosts: all
+
+  sources:
+    - ansible.eda.kafka:
+        host: 10.220.1.162
+        port: 9092
+        topic: syslog
+
+  rules:
+    - name: kafka
+      condition: event.message != ""
+      action:
+        debug
